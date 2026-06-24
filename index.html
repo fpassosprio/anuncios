@@ -144,35 +144,7 @@
       line-height: 1.7;
     }
 
-    /* Hero incentive callout — sits between subtitle and CTAs */
-    .hero-incentive {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(133,227,77,.30);
-      border-radius: var(--radius-md);
-      padding: 12px 20px;
-      margin: 0 auto 40px;
-      max-width: 480px;
-    }
-    .hero-incentive-amount {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 28px;
-      color: var(--prio-verde);
-      white-space: nowrap;
-      line-height: 1;
-    }
-    .hero-incentive-label {
-      font-size: 14px;
-      color: rgba(255,255,255,.75);
-      text-align: left;
-      line-height: 1.45;
-    }
-    .hero-incentive-label strong { color: #fff; }
-
-    .hero-actions {
+.hero-actions {
       display: flex;
       gap: 14px;
       justify-content: center;
@@ -563,33 +535,7 @@
     }
     .faq-body strong { color: var(--fg); }
 
-    /* Destaque especial no FAQ do incentivo */
-    .faq-incentive-highlight {
-      margin-top: 14px;
-      background: linear-gradient(135deg, rgba(44,40,73,.06), rgba(151,135,212,.08));
-      border: 1px solid rgba(151,135,212,.3);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .faq-incentive-amount {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 32px;
-      color: var(--prio-roxo);
-      white-space: nowrap;
-      line-height: 1;
-    }
-    .faq-incentive-desc {
-      font-size: 13px;
-      color: var(--fg-muted);
-      line-height: 1.5;
-    }
-    .faq-incentive-desc strong { color: var(--fg); }
-
-    /* ===== FOOTER ===== */
+/* ===== FOOTER ===== */
     footer {
       background: var(--prio-verde-escuro);
       padding: 36px 24px;
@@ -689,15 +635,6 @@
       Qualquer área da PRIO pode criar seus próprios aplicativos — sem escrever uma linha de código.
     </p>
 
-    <!-- Incentive callout no hero -->
-    <div class="hero-incentive">
-      <div class="hero-incentive-amount">US$ 1.000</div>
-      <div class="hero-incentive-label">
-        <strong>Créditos gratuitos para cada usuário</strong><br>
-        A Anthropic patrocina sua entrada na plataforma.
-      </div>
-    </div>
-
     <div class="hero-actions">
       <a href="#como-funciona" class="btn-primary">Como funciona</a>
       <a href="#acesso" class="btn-outline">Solicitar acesso</a>
@@ -750,7 +687,7 @@
         <div class="step-num">2</div>
         <div class="step-body">
           <h3>Solicite seu repositório ao time de TI</h3>
-          <p>Entre em contato com a TI informando a área, o nome da aplicação e seu usuário do GitHub. O time configura o repositório, concede acesso e te envia o link. Você também recebe nesse momento as instruções para resgatar seus <strong>US$ 1.000 em créditos</strong> na plataforma.</p>
+          <p>Entre em contato com a TI informando a área, o nome da aplicação e seu usuário do GitHub. O time configura o repositório, concede acesso e te envia o link.</p>
         </div>
       </div>
 
@@ -914,7 +851,7 @@
   <div class="container">
     <p class="section-label">Começar a usar</p>
     <h2 class="section-title">Pronto para criar o seu aplicativo?</h2>
-    <p class="section-sub">Solicite acesso ao time de TI e comece ainda hoje — com US$ 1.000 em créditos esperando por você.</p>
+    <p class="section-sub">Solicite acesso ao time de TI e comece ainda hoje.</p>
 
     <div class="callout-web">
       <div class="callout-web-icon">🌐</div>
@@ -926,7 +863,7 @@
 
     <div class="acesso-cta">
       <a href="mailto:fpassos@prio3.com.br?subject=Solicito acesso ao Claude Code + PRIO&body=Olá, time de TI! Gostaria de criar uma aplicação para a minha área. Minha área: [nome da área]. O que preciso: [descrição breve]." class="btn-primary" style="font-size:17px; padding:16px 36px">
-        Solicitar acesso e resgatar US$ 1.000 →
+        Solicitar acesso agora →
       </a>
       <p>Dúvidas? Fale com o Coordenador de Dados e IA (fpassos@prio3.com.br)</p>
     </div>
@@ -956,18 +893,10 @@
         </div>
       </details>
 
-      <details open>
+      <details>
         <summary>E o incentivo de US$ 1.000 — como funciona exatamente?</summary>
         <div class="faq-body">
-          <p>A Anthropic está oferecendo <strong>US$ 1.000 em créditos reais na plataforma Claude Code</strong> para cada colaborador da PRIO que aderir à ferramenta. Esses créditos são sua "moeda" dentro do Claude Code: cada conversa, cada iteração, cada vez que o Claude escreve código, consome uma pequena fração desse valor.</p>
-          <p style="margin-top:10px">Para aplicações do dia a dia, <strong>US$ 1.000 cobrem meses de uso intenso</strong>. Os créditos são aplicados automaticamente quando você cria sua conta — não é preciso preencher formulário nem inserir cartão.</p>
-          <div class="faq-incentive-highlight">
-            <div class="faq-incentive-amount">US$&nbsp;1.000</div>
-            <div class="faq-incentive-desc">
-              <strong>Créditos reais · Aplicados automaticamente</strong><br>
-              Cobrem meses de uso intenso para aplicações corporativas típicas. Sem necessidade de cartão.
-            </div>
-          </div>
+          A Anthropic está oferecendo <strong>US$ 1.000 em créditos na plataforma Claude Code</strong> para cada colaborador da PRIO que aderir à ferramenta. Os créditos são aplicados automaticamente na sua conta — sem formulário nem cartão. Para aplicações corporativas típicas, esse valor cobre meses de uso intenso.
         </div>
       </details>
 
