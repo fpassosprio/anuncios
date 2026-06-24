@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PRIO · Crie seu próprio aplicativo — sem escrever código</title>
+  <meta name="description" content="Qualquer área da PRIO pode criar seus próprios aplicativos com Claude Code. Sem código. Com segurança. E cada usuário recebe US$ 1.000 em créditos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== Tokens PRIO ===== */
+    :root {
+      --prio-verde:        #85E34D;
+      --prio-verde-escuro: #26352D;
+      --prio-azul:         #10AFFF;
+      --prio-roxo:         #2C2849;
+      --prio-lilas:        #9787D4;
+      --prio-laranja:      #F2834B;
+      --prio-rosa:         #FF64BD;
+
+      --bg:       #FFFFFF;
+      --bg-alt:   #EBF0F7;
+      --fg:       #0A1F3C;
+      --fg-muted: #5A7090;
+      --border:   rgba(10, 31, 60, 0.10);
+
+      --font-display: "Epilogue", system-ui, sans-serif;
+      --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+      --radius-lg:   24px;
+      --radius-md:   16px;
+      --radius-sm:   10px;
+      --radius-pill: 9999px;
+      --shadow-1: 0 2px 8px rgba(10, 31, 60, 0.07);
+      --shadow-2: 0 6px 24px rgba(10, 31, 60, 0.10);
+      --shadow-3: 0 16px 48px rgba(10, 31, 60, 0.13);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: var(--prio-verde-escuro);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--prio-verde);
+    }
+    .topbar-logo span { color: rgba(255,255,255,.5); margin: 0 6px; }
+    .topbar-cta {
+      background: var(--prio-verde);
+      color: var(--prio-verde-escuro);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .topbar-cta:hover { opacity: .85; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--prio-verde-escuro);
+      padding: 80px 24px 96px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 110%, rgba(133,227,77,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% -10%, rgba(16,175,255,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .hero .container { position: relative; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(133,227,77,.15);
+      border: 1px solid rgba(133,227,77,.35);
+      color: var(--prio-verde);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(44px, 7.5vw, 80px);
+      line-height: 1.0;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      color: #fff;
+      max-width: 860px;
+      margin: 0 auto 24px;
+      text-wrap: balance;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--prio-verde);
+      display: inline-block;
+      transform: skewX(-6deg);
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,.65);
+      max-width: 620px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    /* Hero incentive callout — sits between subtitle and CTAs */
+    .hero-incentive {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(133,227,77,.30);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      margin: 0 auto 40px;
+      max-width: 480px;
+    }
+    .hero-incentive-amount {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 28px;
+      color: var(--prio-verde);
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .hero-incentive-label {
+      font-size: 14px;
+      color: rgba(255,255,255,.75);
+      text-align: left;
+      line-height: 1.45;
+    }
+    .hero-incentive-label strong { color: #fff; }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--prio-verde);
+      color: var(--prio-verde-escuro);
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(133,227,77,.35); }
+    .btn-outline {
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      font-weight: 600;
+      font-size: 16px;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.25);
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,.6); color: #fff; }
+
+    /* ===== SEÇÃO DE INCENTIVO DESTACADA ===== */
+    .incentivo-section {
+      background: linear-gradient(135deg, var(--prio-roxo) 0%, #1e1b4e 50%, #12133a 100%);
+      padding: 72px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .incentivo-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 80% at 10% 50%, rgba(151,135,212,.22) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 70% at 90% 50%, rgba(133,227,77,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .incentivo-inner {
+      position: relative;
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .incentivo-numero {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(80px, 12vw, 140px);
+      line-height: .9;
+      letter-spacing: -.04em;
+      color: var(--prio-verde);
+      white-space: nowrap;
+      text-shadow: 0 0 80px rgba(133,227,77,.25);
+    }
+    .incentivo-numero sup {
+      font-size: .38em;
+      vertical-align: super;
+      letter-spacing: 0;
+      color: rgba(133,227,77,.7);
+    }
+    .incentivo-conteudo {}
+    .incentivo-conteudo h2 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(22px, 3.5vw, 36px);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      color: #fff;
+      margin-bottom: 16px;
+      text-wrap: balance;
+    }
+    .incentivo-conteudo h2 em {
+      font-style: normal;
+      color: var(--prio-verde);
+    }
+    .incentivo-conteudo p {
+      font-size: 16px;
+      color: rgba(255,255,255,.65);
+      line-height: 1.7;
+      max-width: 460px;
+    }
+    .incentivo-conteudo p strong { color: rgba(255,255,255,.9); }
+    .incentivo-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .incentivo-pill-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(133,227,77,.25);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.8);
+    }
+    .incentivo-pill-item .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--prio-verde);
+      flex-shrink: 0;
+    }
+
+    /* ===== SECTIONS ===== */
+    section { padding: 80px 24px; }
+    .container { max-width: 1060px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--prio-azul);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(26px, 4vw, 42px);
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      text-wrap: balance;
+    }
+    .section-sub {
+      font-size: 17px;
+      color: var(--fg-muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 52px;
+    }
+
+    /* ===== COMO FUNCIONA ===== */
+    .como-funciona { background: var(--bg-alt); }
+    .steps {
+      display: grid;
+      gap: 0;
+      counter-reset: step;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0 24px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 27px;
+      top: 56px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--border), transparent);
+    }
+    .step-num {
+      counter-increment: step;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--prio-verde-escuro);
+      color: var(--prio-verde);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-2);
+      position: relative;
+      z-index: 1;
+    }
+    .step-body { padding-bottom: 36px; }
+    .step-body h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 19px;
+      margin: 14px 0 6px;
+    }
+    .step-body p { color: var(--fg-muted); font-size: 15px; line-height: 1.7; }
+    .step-body .quote {
+      margin-top: 12px;
+      background: #fff;
+      border-left: 3px solid var(--prio-azul);
+      padding: 10px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 14px;
+      color: var(--fg);
+      font-style: italic;
+    }
+
+    /* ===== EXEMPLOS ===== */
+    .exemplos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .exemplo-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-1);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .exemplo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+    .exemplo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+    .exemplo-card h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .exemplo-card p { font-size: 14px; color: var(--fg-muted); line-height: 1.6; }
+    .tag-area {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ===== ACESSO ===== */
+    .acesso { background: var(--prio-verde-escuro); color: #fff; }
+    .acesso .section-label { color: var(--prio-verde); }
+    .acesso .section-title { color: #fff; }
+    .acesso .section-sub { color: rgba(255,255,255,.6); }
+    .acesso-cta {
+      margin-top: 48px;
+      text-align: center;
+    }
+    .acesso-cta p { color: rgba(255,255,255,.5); font-size: 14px; margin-top: 12px; }
+
+    /* ===== CALLOUT WEB ===== */
+    .callout-web {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(16,175,255,.12);
+      border: 1px solid rgba(16,175,255,.35);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 40px;
+    }
+    .callout-web-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+    .callout-web strong { color: var(--prio-azul); display: block; font-size: 15px; margin-bottom: 4px; }
+    .callout-web p { font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.6; margin: 0; }
+    .callout-web .web-badge {
+      display: inline-block;
+      background: var(--prio-azul);
+      color: var(--prio-verde-escuro);
+      font-weight: 800;
+      font-size: 13px;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* ===== MANIFESTO ===== */
+    .manifesto {
+      background: var(--prio-roxo);
+      padding: 72px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .manifesto::before {
+      content: '\201C';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 260px;
+      font-weight: 900;
+      color: rgba(255,255,255,.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .manifesto-quote {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(26px, 4.5vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      color: #fff;
+      max-width: 860px;
+      margin: 0 auto 20px;
+      position: relative;
+      text-wrap: balance;
+    }
+    .manifesto-quote em { font-style: normal; color: var(--prio-verde); }
+    .manifesto-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,.55);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ===== SEGURANÇA ===== */
+    .seguranca-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .seguranca-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 20px;
+      background: var(--bg-alt);
+      border-radius: var(--radius-md);
+    }
+    .seguranca-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .seguranca-item h4 { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .seguranca-item p { font-size: 13px; color: var(--fg-muted); line-height: 1.5; }
+
+    /* ===== FAQ ===== */
+    .faq { background: var(--bg-alt); }
+    .faq-list { max-width: 720px; }
+    details {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    summary {
+      font-weight: 600;
+      font-size: 16px;
+      padding: 18px 22px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: '+';
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--fg-muted);
+      flex-shrink: 0;
+      transition: transform .2s;
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    .faq-body {
+      padding: 0 22px 20px;
+      font-size: 15px;
+      color: var(--fg-muted);
+      line-height: 1.7;
+    }
+    .faq-body strong { color: var(--fg); }
+
+    /* Destaque especial no FAQ do incentivo */
+    .faq-incentive-highlight {
+      margin-top: 14px;
+      background: linear-gradient(135deg, rgba(44,40,73,.06), rgba(151,135,212,.08));
+      border: 1px solid rgba(151,135,212,.3);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .faq-incentive-amount {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 32px;
+      color: var(--prio-roxo);
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .faq-incentive-desc {
+      font-size: 13px;
+      color: var(--fg-muted);
+      line-height: 1.5;
+    }
+    .faq-incentive-desc strong { color: var(--fg); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--prio-verde-escuro);
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--prio-verde);
+      margin-bottom: 8px;
+    }
+    footer p { color: rgba(255,255,255,.4); font-size: 13px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .topbar { padding: 12px 16px; }
+      section { padding: 56px 16px; }
+      .hero { padding: 56px 16px 72px; }
+      .hero h1 { font-size: 36px; }
+      .hero-incentive { flex-direction: column; text-align: center; }
+      .hero-incentive-label { text-align: center; }
+      .incentivo-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: center;
+      }
+      .incentivo-numero { font-size: 80px; }
+      .incentivo-conteudo p { max-width: 100%; }
+      .incentivo-pills { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-logo">TECNOLOGIA PRIO<span>·</span>Dados e IA</div>
+  <a href="#acesso" class="topbar-cta">Solicitar acesso</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+  <svg class="hero-art" viewBox="0 0 1440 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <radialGradient id="g-verde" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#85E34D" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#85E34D" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="g-azul" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#10AFFF" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#10AFFF" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="g-lilas" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#9787D4" stop-opacity="0.16"/>
+        <stop offset="100%" stop-color="#9787D4" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="1240" cy="110" rx="520" ry="300" fill="url(#g-azul)"/>
+    <ellipse cx="180"  cy="490" rx="420" ry="240" fill="url(#g-verde)"/>
+    <ellipse cx="760"  cy="300" rx="380" ry="260" fill="url(#g-lilas)" opacity="0.45"/>
+    <path d="M1040,0 C1140,28 1310,75 1395,210 C1445,305 1425,415 1350,460 C1275,508 1140,488 1065,402 C990,318 968,195 1012,95 C1032,44 1038,0 1040,0 Z" fill="#85E34D" opacity="0.07"/>
+    <path d="M1200,0 C1310,18 1430,55 1440,190 L1440,0 Z" fill="#10AFFF" opacity="0.09"/>
+    <path d="M1295,370 C1348,295 1435,315 1440,430 C1440,600 1375,590 1295,525 C1215,462 1242,445 1295,370 Z" fill="#9787D4" opacity="0.09"/>
+    <path d="M0,370 C65,308 170,330 208,418 C248,510 185,560 80,560 L0,560 Z" fill="#85E34D" opacity="0.09"/>
+    <g fill="none">
+      <path d="M-100,425 Q180,388 480,415 T990,400 T1540,428" stroke="#10AFFF" stroke-opacity="0.18" stroke-width="1.2"/>
+      <path d="M-100,455 Q180,418 480,445 T990,430 T1540,458" stroke="#10AFFF" stroke-opacity="0.14" stroke-width="1"/>
+      <path d="M-100,485 Q180,448 480,475 T990,460 T1540,488" stroke="#10AFFF" stroke-opacity="0.10" stroke-width="1"/>
+      <path d="M-100,515 Q180,478 480,505 T990,490 T1540,518" stroke="#85E34D" stroke-opacity="0.10" stroke-width="1"/>
+      <path d="M-100,545 Q180,508 480,535 T990,520 T1540,548" stroke="#85E34D" stroke-opacity="0.07" stroke-width="1"/>
+    </g>
+    <g fill="none">
+      <line x1="1310" y1="0" x2="1440" y2="155" stroke="#10AFFF" stroke-opacity="0.13" stroke-width="1"/>
+      <line x1="1365" y1="0" x2="1440" y2="95"  stroke="#85E34D" stroke-opacity="0.11" stroke-width="1"/>
+    </g>
+    <circle cx="1115" cy="75"  r="3"   fill="#10AFFF" opacity="0.70"/>
+    <circle cx="1215" cy="46"  r="2"   fill="#85E34D" opacity="0.60"/>
+    <circle cx="1058" cy="145" r="4"   fill="#10AFFF" opacity="0.38"/>
+    <circle cx="1335" cy="188" r="2.5" fill="#9787D4" opacity="0.65"/>
+    <circle cx="1390" cy="125" r="1.5" fill="#85E34D" opacity="0.50"/>
+    <circle cx="168"  cy="58"  r="2.5" fill="#10AFFF" opacity="0.32"/>
+    <circle cx="82"   cy="125" r="2"   fill="#85E34D" opacity="0.28"/>
+    <circle cx="1200" cy="300" r="1.5" fill="#9787D4" opacity="0.40"/>
+    <circle cx="1420" cy="260" r="2"   fill="#10AFFF" opacity="0.30"/>
+    <polygon points="1440,0 1440,130 1305,0" fill="#10AFFF" opacity="0.05"/>
+  </svg>
+
+  <div class="container">
+    <div class="hero-badge">Nova iniciativa · Tecnologia PRIO</div>
+    <h1>Ir mais longe<br>começa com <em>uma ideia.</em></h1>
+    <p class="hero-sub">
+      Você traz o problema. O Claude Code traz o código. O TI garante a segurança.
+      Qualquer área da PRIO pode criar seus próprios aplicativos — sem escrever uma linha de código.
+    </p>
+
+    <!-- Incentive callout no hero -->
+    <div class="hero-incentive">
+      <div class="hero-incentive-amount">US$ 1.000</div>
+      <div class="hero-incentive-label">
+        <strong>Créditos gratuitos para cada usuário</strong><br>
+        A Anthropic patrocina sua entrada na plataforma.
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#como-funciona" class="btn-primary">Como funciona</a>
+      <a href="#acesso" class="btn-outline">Solicitar acesso</a>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO DE INCENTIVO — destaque principal -->
+<div class="incentivo-section" id="incentivo">
+  <div class="container">
+    <div class="incentivo-inner">
+      <div class="incentivo-numero"><sup>US$</sup>1.000</div>
+      <div class="incentivo-conteudo">
+        <h2>A Anthropic acredita no potencial da PRIO.<br><em>E está pagando para provar.</em></h2>
+        <p>
+          Cada colaborador da PRIO que aderir ao Claude Code recebe <strong>US$ 1.000 em créditos</strong> para usar livremente na plataforma. Os créditos são aplicados automaticamente na sua conta e cobrem todo o uso da ferramenta durante o período de adoção.
+        </p>
+        <p style="margin-top:12px">
+          Não é um desconto. Não é um trial limitado. É <strong>mil dólares reais</strong> que a Anthropic deposita na sua conta para que você crie, itere e publique suas aplicações sem custo algum.
+        </p>
+        <div class="incentivo-pills">
+          <div class="incentivo-pill-item"><span class="dot"></span>Créditos reais na plataforma</div>
+          <div class="incentivo-pill-item"><span class="dot"></span>Aplicados automaticamente</div>
+          <div class="incentivo-pill-item"><span class="dot"></span>Sem limite de projetos</div>
+          <div class="incentivo-pill-item"><span class="dot"></span>Por colaborador cadastrado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section class="como-funciona" id="como-funciona">
+  <div class="container">
+    <p class="section-label">Passo a passo</p>
+    <h2 class="section-title">Como funciona, do início ao fim</h2>
+    <p class="section-sub">Seis etapas simples. Você só precisa saber o que a sua área precisa — o restante é com o Claude.</p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Crie sua conta no GitHub (se ainda não tiver)</h3>
+          <p>O Claude Code usa o GitHub para hospedar e versionar o código da sua aplicação com segurança. Acesse <strong>github.com</strong>, crie uma conta gratuita com seu <strong>e-mail PRIO (@prio3.com.br)</strong> e informe o nome de usuário ao time de TI — precisamos disso para te dar acesso de colaborador no repositório.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Solicite seu repositório ao time de TI</h3>
+          <p>Entre em contato com a TI informando a área, o nome da aplicação e seu usuário do GitHub. O time configura o repositório, concede acesso e te envia o link. Você também recebe nesse momento as instruções para resgatar seus <strong>US$ 1.000 em créditos</strong> na plataforma.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Acesse o Claude Code na web e conecte o GitHub</h3>
+          <p>Acesse <strong>claude.ai/code</strong> pelo navegador — <strong>não use o aplicativo Claude Desktop</strong>. Na versão web, o ambiente de desenvolvimento roda de forma isolada em servidores da Anthropic, sem instalar nada na sua máquina. Clique em <strong>"Continuar na web"</strong>, conecte sua conta do GitHub e selecione o repositório criado pela TI. Na primeira abertura, selecione <strong>"Pacotes confiáveis"</strong> quando solicitado.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Descreva o que você precisa — em português</h3>
+          <p>O Claude vai te fazer algumas perguntas simples sobre o seu processo, quem vai usar e o que você quer ver na tela. Você responde como se estivesse explicando para um colega.</p>
+          <div class="quote">"Sou da área de Manutenção e quero acompanhar as ordens de serviço: equipamento, técnico responsável, data de abertura e status. Quando estiver atrasada, quero destacar em vermelho."</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Aprove a prévia antes de construir</h3>
+          <p>Antes de programar qualquer coisa, o Claude te mostra um desenho de como a tela vai ficar. Você pede ajustes à vontade — nada está salvo ainda. Só quando você aprovar é que a construção começa.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h3>Envie para aprovação e aguarde o TI publicar</h3>
+          <p>Quando estiver satisfeito, diga "pode publicar" e o Claude envia a aplicação para revisão do time de TI. Após a aprovação, ela entra no ambiente oficial. Você não precisa fazer mais nada.</p>
+          <div class="quote">"Gostei, pode mandar para aprovação." — é o suficiente para o Claude encaminhar.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXEMPLOS -->
+<section id="exemplos">
+  <div class="container">
+    <p class="section-label">Possibilidades</p>
+    <h2 class="section-title">Que tipo de app posso criar?</h2>
+    <p class="section-sub">Se você faz isso hoje em planilha, e-mail ou não tem sistema nenhum — provavelmente dá para fazer um app para isso.</p>
+
+    <div class="exemplos-grid">
+
+      <div class="exemplo-card">
+        <div class="exemplo-icon" style="background:#e8f8fb">📋</div>
+        <h4>Painel de ordens de serviço</h4>
+        <p>Visualize todas as OS abertas, filtre por equipe, destaque as atrasadas e registre atualizações de status em tempo real.</p>
+        <span class="tag-area" style="background:#e8f8fb; color:#0077aa">Manutenção</span>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-icon" style="background:#edf7e8">📦</div>
+        <h4>Acompanhamento de pedidos de compra</h4>
+        <p>Número do pedido, fornecedor, valor, prazo de entrega e status — tudo num só lugar, sem depender de planilhas espalhadas.</p>
+        <span class="tag-area" style="background:#edf7e8; color:#2d6a1e">Suprimentos</span>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-icon" style="background:#f5f0ff">📊</div>
+        <h4>Dashboard de indicadores</h4>
+        <p>Consolide KPIs da sua área em um painel visual com gráficos, metas e alertas — atualizado em tempo real pelos responsáveis.</p>
+        <span class="tag-area" style="background:#f5f0ff; color:#5a3dbf">Qualquer área</span>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-icon" style="background:#fff5ee">🔍</div>
+        <h4>Registro de inspeções de campo</h4>
+        <p>Formulário de inspeção com fotos, checklist e aprovação. Tudo salvo e rastreável, com histórico por equipamento.</p>
+        <span class="tag-area" style="background:#fff5ee; color:#b54a00">Operações</span>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-icon" style="background:#fff0f6">📅</div>
+        <h4>Controle de férias e escalas</h4>
+        <p>Quem está de férias, quem está em campo, quem cobre quem — uma visão clara do time sem depender de planilhas compartilhadas.</p>
+        <span class="tag-area" style="background:#fff0f6; color:#a0006a">RH / Gestão</span>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-icon" style="background:#f0f8ff">💰</div>
+        <h4>Controle de orçamentos</h4>
+        <p>Acompanhe o que foi orçado, o que já foi consumido e o que ainda está disponível — por projeto, área ou categoria de custo.</p>
+        <span class="tag-area" style="background:#f0f8ff; color:#0055aa">Finanças</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <div class="container">
+    <p class="manifesto-quote">Neste formato, <em>o céu é o limite.</em><br>Basta uma boa ideia e o conhecimento profundo do seu negócio.</p>
+    <p class="manifesto-sub">Você conhece o problema melhor do que ninguém. O Claude transforma esse conhecimento em software — rapidamente, com segurança e dentro dos padrões da PRIO.</p>
+  </div>
+</div>
+
+<!-- SEGURANÇA -->
+<section id="seguranca">
+  <div class="container">
+    <p class="section-label">Segurança e controle</p>
+    <h2 class="section-title">Você cria. O TI protege.</h2>
+    <p class="section-sub">Nada vai ao ar sem aprovação. O processo tem travas automáticas em cada etapa.</p>
+
+    <div class="seguranca-grid">
+      <div class="seguranca-item">
+        <div class="seguranca-icon">🔒</div>
+        <div>
+          <h4>Revisão obrigatória do TI</h4>
+          <p>Nenhuma aplicação entra em produção sem passar pela revisão e aprovação do time de TI. É uma trava técnica, não só um processo.</p>
+        </div>
+      </div>
+      <div class="seguranca-item">
+        <div class="seguranca-icon">🛡️</div>
+        <div>
+          <h4>Login corporativo (Microsoft)</h4>
+          <p>Toda aplicação criada usa automaticamente o login da Microsoft — nada de senha separada. Acesso controlado por perfil: Editor e Leitor.</p>
+        </div>
+      </div>
+      <div class="seguranca-item">
+        <div class="seguranca-icon">📜</div>
+        <div>
+          <h4>Trilha de auditoria automática</h4>
+          <p>Toda criação, edição ou exclusão de dados fica registrada: quem fez, quando fez e o que mudou. Isso vem de fábrica em todas as aplicações.</p>
+        </div>
+      </div>
+      <div class="seguranca-item">
+        <div class="seguranca-icon">🏗️</div>
+        <div>
+          <h4>Stack definida pela TI</h4>
+          <p>O Claude só constrói com as tecnologias aprovadas pela TI. Não tem como ele usar outro banco de dados ou outra linguagem — as regras estão travadas no sistema.</p>
+        </div>
+      </div>
+      <div class="seguranca-item">
+        <div class="seguranca-icon">🌿</div>
+        <div>
+          <h4>Área de trabalho isolada</h4>
+          <p>Tudo o que você faz durante a conversa acontece numa área separada. O ambiente oficial só é alterado depois que o TI aprova.</p>
+        </div>
+      </div>
+      <div class="seguranca-item">
+        <div class="seguranca-icon">✅</div>
+        <div>
+          <h4>Prévia antes de construir</h4>
+          <p>Você vê e aprova o desenho antes de qualquer código ser escrito. Menos retrabalho, mais controle sobre o resultado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACESSO -->
+<section class="acesso" id="acesso">
+  <div class="container">
+    <p class="section-label">Começar a usar</p>
+    <h2 class="section-title">Pronto para criar o seu aplicativo?</h2>
+    <p class="section-sub">Solicite acesso ao time de TI e comece ainda hoje — com US$ 1.000 em créditos esperando por você.</p>
+
+    <div class="callout-web">
+      <div class="callout-web-icon">🌐</div>
+      <div>
+        <strong>Use sempre o Claude Code na web — não o app de desktop</strong>
+        <p>O acesso correto é pelo navegador em <span class="web-badge">claude.ai/code</span> — não pelo aplicativo Claude Desktop. Na web, o ambiente de desenvolvimento roda de forma segura e isolada em servidores da Anthropic, sem instalar nada na sua máquina e sem interferir com os sistemas da empresa.</p>
+      </div>
+    </div>
+
+    <div class="acesso-cta">
+      <a href="mailto:fpassos@prio3.com.br?subject=Solicito acesso ao Claude Code + PRIO&body=Olá, time de TI! Gostaria de criar uma aplicação para a minha área. Minha área: [nome da área]. O que preciso: [descrição breve]." class="btn-primary" style="font-size:17px; padding:16px 36px">
+        Solicitar acesso e resgatar US$ 1.000 →
+      </a>
+      <p>Dúvidas? Fale com o Coordenador de Dados e IA (fpassos@prio3.com.br)</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <p class="section-label">Dúvidas frequentes</p>
+    <h2 class="section-title">Perguntas e respostas</h2>
+    <p class="section-sub">Tudo o que você precisa saber antes de começar.</p>
+
+    <div class="faq-list">
+
+      <details>
+        <summary>Preciso saber programação para usar?</summary>
+        <div class="faq-body">
+          <strong>Não.</strong> Você só precisa saber o que a sua área precisa. O Claude faz todas as perguntas necessárias e constrói o código nos bastidores. Você nunca vai ver ou escrever uma linha de código.
+        </div>
+      </details>
+
+      <details>
+        <summary>Por que preciso de uma conta no GitHub?</summary>
+        <div class="faq-body">
+          O GitHub é a plataforma onde o código da sua aplicação fica armazenado com segurança. Ele permite que o TI compartilhe o projeto com você e controle quem pode acessar. <strong>Você não precisa entender como o GitHub funciona</strong> — só criar a conta gratuita em <strong>github.com</strong> com seu e-mail PRIO e informar o nome de usuário à TI.
+        </div>
+      </details>
+
+      <details open>
+        <summary>E o incentivo de US$ 1.000 — como funciona exatamente?</summary>
+        <div class="faq-body">
+          <p>A Anthropic está oferecendo <strong>US$ 1.000 em créditos reais na plataforma Claude Code</strong> para cada colaborador da PRIO que aderir à ferramenta. Esses créditos são sua "moeda" dentro do Claude Code: cada conversa, cada iteração, cada vez que o Claude escreve código, consome uma pequena fração desse valor.</p>
+          <p style="margin-top:10px">Para aplicações do dia a dia, <strong>US$ 1.000 cobrem meses de uso intenso</strong>. Os créditos são aplicados automaticamente quando você cria sua conta — não é preciso preencher formulário nem inserir cartão.</p>
+          <div class="faq-incentive-highlight">
+            <div class="faq-incentive-amount">US$&nbsp;1.000</div>
+            <div class="faq-incentive-desc">
+              <strong>Créditos reais · Aplicados automaticamente</strong><br>
+              Cobrem meses de uso intenso para aplicações corporativas típicas. Sem necessidade de cartão.
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Posso quebrar alguma coisa no ambiente da empresa?</summary>
+        <div class="faq-body">
+          Não. Tudo o que você faz durante a conversa acontece em uma <strong>área de trabalho completamente isolada</strong>. O ambiente oficial só é alterado depois que o TI revisa e aprova — e isso é uma trava técnica, não apenas um processo.
+        </div>
+      </details>
+
+      <details>
+        <summary>Quanto tempo demora para ter minha aplicação no ar?</summary>
+        <div class="faq-body">
+          Depende da complexidade, mas em geral: a conversa com o Claude e a construção levam de <strong>minutos a algumas horas</strong>. Depois, o TI revisa e aprova. Para aplicações simples, o processo todo pode ser concluído no mesmo dia.
+        </div>
+      </details>
+
+      <details>
+        <summary>Posso pedir ajustes depois que a aplicação estiver no ar?</summary>
+        <div class="faq-body">
+          Sim. Basta abrir uma nova conversa no Claude Code, descrever o que quer ajustar, e o processo se repete: prévia → construção → aprovação do TI. Cada melhoria passa pelo mesmo fluxo seguro.
+        </div>
+      </details>
+
+      <details>
+        <summary>Quem vê os dados da minha aplicação?</summary>
+        <div class="faq-body">
+          Os dados ficam no ambiente PRIO, protegidos pela <strong>autenticação Microsoft</strong>. Você define, na conversa com o Claude, quem pode ver (Leitor) e quem pode alterar (Editor) — normalmente por área ou por cargo. O TI configura os grupos de acesso.
+        </div>
+      </details>
+
+      <details>
+        <summary>A aplicação é minha ou é da PRIO?</summary>
+        <div class="faq-body">
+          A aplicação pertence à PRIO e segue as políticas de TI da empresa. Você é o responsável funcional — define o que ela faz e aprova as mudanças. O TI é responsável pela infraestrutura, segurança e deploy.
+        </div>
+      </details>
+
+      <details>
+        <summary>E se o Claude não entender o que eu preciso?</summary>
+        <div class="faq-body">
+          O Claude é treinado para fazer perguntas até entender bem o problema. Se algo não ficar claro, ele vai perguntar de novo — em linguagem simples. Se tiver dúvidas sobre o processo, o time de TI está disponível para ajudar.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PRIO · Apps</div>
+  <p>Uma iniciativa do time de Dados e IA da TI. Dúvidas: <a href="mailto:fpassos@prio3.com.br" style="color:rgba(255,255,255,.6)">fpassos@prio3.com.br</a></p>
+  <p style="margin-top:6px">Construído com Claude Code · Anthropic</p>
+</footer>
+
+</body>
+</html>
