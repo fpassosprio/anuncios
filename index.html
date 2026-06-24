@@ -121,13 +121,14 @@
     .hero h1 {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(32px, 5vw, 58px);
-      line-height: 1.0;
+      font-size: clamp(22px, 4.6vw, 54px);
+      line-height: 1.1;
       letter-spacing: -.02em;
       text-transform: uppercase;
       color: #fff;
       max-width: 100%;
       margin: 0 auto 24px;
+      white-space: nowrap;
     }
     .hero h1 em {
       font-style: italic;
@@ -181,7 +182,7 @@
     /* ===== SEÇÃO DE INCENTIVO DESTACADA ===== */
     .incentivo-section {
       background: linear-gradient(135deg, var(--prio-roxo) 0%, #1e1b4e 50%, #12133a 100%);
-      padding: 72px 24px;
+      padding: 80px 24px;
       position: relative;
       overflow: hidden;
     }
@@ -437,7 +438,7 @@
     /* ===== MANIFESTO ===== */
     .manifesto {
       background: var(--prio-roxo);
-      padding: 72px 24px;
+      padding: 80px 24px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -555,8 +556,9 @@
     @media (max-width: 700px) {
       .topbar { padding: 12px 16px; }
       section { padding: 56px 16px; }
+      .incentivo-section, .manifesto { padding: 56px 16px; }
       .hero { padding: 56px 16px 72px; }
-      .hero h1 { font-size: 36px; }
+      .hero h1 { font-size: 4.6vw; }
       .hero-incentive { flex-direction: column; text-align: center; }
       .hero-incentive-label { text-align: center; }
       .incentivo-inner {
@@ -627,7 +629,7 @@
   </svg>
 
   <div class="container">
-    <div class="hero-badge">Nova iniciativa · Tecnologia PRIO</div>
+    <div class="hero-badge">Claude Code + PRIO</div>
     <h1>Crie o app da sua área.<br><em>Sem escrever uma linha de código!</em></h1>
     <p class="hero-sub">
       Você descreve o que precisa, o Claude Code constrói. O TI revisa e aprova. Sua aplicação vai ao ar — segura, integrada ao ambiente PRIO.
